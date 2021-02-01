@@ -98,7 +98,7 @@ const Dashboard = () => {
       {/* Your Progress */}
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
-          <h1>Enter Tickers Separated by Commas with no spaces inbetween</h1>
+          <h1>Enter Tickers</h1>
           <br></br>
           <input onChange={(e) => setTicker(e.target.value)}></input>
           <button onClick={() => onClick()}>Enter</button>
