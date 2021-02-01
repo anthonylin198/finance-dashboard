@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Grid } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
@@ -7,25 +7,12 @@ import axios from "axios";
 // https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo
 
 const Dashboard = () => {
-  const [info, setInfo] = useState("");
+  const [info, setInfo] = useState([]);
   const [ticker, setTicker] = useState("");
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const api_key = "M51RO6KIJYURTFYD";
-
-  async function onClick() {
-    // loop through all of the tickers, separated by a comma, and put into an array
-
-    // create a request to the api route for each
-    const url =
-      "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" +
-      ticker +
-      "&apikey=" +
-      api_key;
-    const data = await axios.get(url);
-    setInfo(data.data);
-  }
-
-  console.log(info);
 
   // column info
   const columns = [
@@ -39,25 +26,60 @@ const Dashboard = () => {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      company: info.Name,
-      ticker: info.Symbol,
-      movingAverage: info["50DayMovingAverage"],
-    },
-  ];
+  async function onClick() {
+    setLoading(true);
+    // We need to use promise.all
+    const promises = [];
+    const tickerArr = ticker.split(",");
+    for (let i = 0; i < tickerArr.length; i++) {
+      const url =
+        "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" +
+        tickerArr[i] +
+        "&apikey=" +
+        api_key;
+      const data = await axios.get(url);
+      promises.push(data.data);
+    }
+    Promise.all(promises)
+      .then((results) => {
+        setLoading(false);
+        setInfo(results);
+      })
+      .catch((e) => {
+        setLoading(false);
+        console.log("errors", e);
+      });
+  }
+
+  useEffect(() => {
+    const newRows = [];
+    for (let i = 0; i < info.length; i++) {
+      newRows.push({
+        id: i,
+        company: info[i].Name,
+        ticker: info[i].Symbol,
+        movingAverage: info[i]["50DayMovingAverage"],
+      });
+    }
+    setRows(newRows);
+  }, [info]);
+
+  let isLoading;
+  if (loading) {
+    isLoading = <div>Loading</div>;
+  }
 
   return (
     <div>
       {/* Your Progress */}
       <Grid container spacing={3}>
         <Grid item xs={12} md={12}>
-          <h1>Enter Tickers Separated by Commas</h1>
+          <h1>Enter Tickers Separated by Commas with no spaces inbetween</h1>
           <br></br>
           <input onChange={(e) => setTicker(e.target.value)}></input>
           <button onClick={() => onClick()}>Enter</button>
         </Grid>
+        {isLoading}
 
         <Grid item xs={12} md={12}>
           <div style={{ height: "50vh", width: "100%" }}>
