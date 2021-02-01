@@ -15,14 +15,11 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const [info, setInfo] = useState([]);
   const [ticker, setTicker] = useState("");
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const reduxRows = useSelector((state) => state.overview.rows);
-
-  console.log("herre", reduxRows);
 
   const api_key = "M51RO6KIJYURTFYD";
 
@@ -90,15 +87,12 @@ const Dashboard = () => {
       .then((results) => {
         setLoading(false);
         dispatch(updateOverview(results));
-        setInfo(results);
       })
       .catch((e) => {
         setLoading(false);
         console.log("errors", e);
       });
   }
-
-  console.log("info", info);
 
   useEffect(() => {
     const newRows = [];
