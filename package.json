@@ -3,20 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
-    "react": "^17.0.1",
-    "react-jss": "^10.4.0",
     "prop-types": "^15.7.2",
+    "react": "^17.0.1",
     "react-burger-menu": "^2.6.13",
+    "react-collapsible-content": "^1.0.0",
     "react-dom": "^17.0.1",
+    "react-jss": "^10.4.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.1",
     "react-svg-line-chart": "^2.0.1",
     "simple-flexbox": "^2.3.1",
-    "react-collapsible-content": "^1.0.0",
-    "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4",
-    "react-router-dom": "^5.2.0"
+    "web-vitals": "^0.2.4"
   },
   "scripts": {
     "start": "react-scripts start",
