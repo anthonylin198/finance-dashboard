@@ -75,6 +75,8 @@ const Dashboard = () => {
       });
   }
 
+  console.log("info", info);
+
   useEffect(() => {
     const newRows = [];
     for (let i = 0; i < info.length; i++) {
