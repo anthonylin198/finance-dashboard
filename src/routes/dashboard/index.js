@@ -10,6 +10,7 @@ import axios from "axios";
 // Redux imports
 import { useDispatch } from "react-redux";
 import { addTicker } from "../../redux/reducers/tickers";
+import { updateOverview } from "../../redux/reducers/overview";
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {
@@ -19,9 +20,9 @@ const Dashboard = () => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const tickers = useSelector((state) => state.tickers);
+  const reduxRows = useSelector((state) => state.overview.rows);
 
-  console.log("TICKERS", tickers);
+  console.log("herre", reduxRows);
 
   const api_key = "M51RO6KIJYURTFYD";
 
@@ -82,11 +83,13 @@ const Dashboard = () => {
       const data = await axios.get(url);
       const data2 = await axios.get(url2);
       promises.push(data.data);
+      promises[i].id = [i];
       promises[i]["Current Price"] = data2.data["Global Quote"];
     }
     Promise.all(promises)
       .then((results) => {
         setLoading(false);
+        dispatch(updateOverview(results));
         setInfo(results);
       })
       .catch((e) => {
@@ -99,17 +102,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     const newRows = [];
-    for (let i = 0; i < info.length; i++) {
+    for (let i = 0; i < reduxRows.length; i++) {
       newRows.push({
         id: i,
-        company: info[i].Name,
-        ticker: info[i].Symbol,
-        movingAverage: info[i]["50DayMovingAverage"],
-        currentPrice: info[i]["Current Price"]["05. price"],
+        company: reduxRows[i].Name,
+        ticker: reduxRows[i].Symbol,
+        movingAverage: reduxRows[i]["50DayMovingAverage"],
+        currentPrice: reduxRows[i]["Current Price"]["05. price"],
       });
     }
+    // dispatch(updateOverview(newRows));
     setRows(newRows);
-  }, [info]);
+    // eslint-disable-next-line
+  }, [reduxRows]);
 
   let isLoading;
   if (loading) {
