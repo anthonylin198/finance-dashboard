@@ -5,6 +5,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import axios from "axios";
 
 // https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo
+//https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo
 
 const Dashboard = () => {
   const [info, setInfo] = useState([]);
@@ -24,8 +25,8 @@ const Dashboard = () => {
       width: 250,
     },
     {
-      field: "data1",
-      headerName: "data1",
+      field: "currentPrice",
+      headerName: "Current Price",
       width: 250,
     },
     {
@@ -61,8 +62,16 @@ const Dashboard = () => {
         tickerArr[i] +
         "&apikey=" +
         api_key;
+
+      const url2 =
+        "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=" +
+        tickerArr[i] +
+        "&apikey=" +
+        api_key;
       const data = await axios.get(url);
+      const data2 = await axios.get(url2);
       promises.push(data.data);
+      promises[i]["Current Price"] = data2.data["Global Quote"];
     }
     Promise.all(promises)
       .then((results) => {
@@ -85,6 +94,7 @@ const Dashboard = () => {
         company: info[i].Name,
         ticker: info[i].Symbol,
         movingAverage: info[i]["50DayMovingAverage"],
+        currentPrice: info[i]["Current Price"]["05. price"],
       });
     }
     setRows(newRows);
