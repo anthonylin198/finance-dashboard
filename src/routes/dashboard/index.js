@@ -7,11 +7,21 @@ import axios from "axios";
 // https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo
 //https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=IBM&apikey=demo
 
+// Redux imports
+import { useDispatch } from "react-redux";
+import { addTicker } from "../../redux/reducers/tickers";
+import { useSelector } from "react-redux";
+
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const [info, setInfo] = useState([]);
   const [ticker, setTicker] = useState("");
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const tickers = useSelector((state) => state.tickers);
+
+  console.log("TICKERS", tickers);
 
   const api_key = "M51RO6KIJYURTFYD";
 
@@ -56,6 +66,7 @@ const Dashboard = () => {
     // We need to use promise.all
     const promises = [];
     const tickerArr = ticker.split(",");
+    dispatch(addTicker(tickerArr));
     for (let i = 0; i < tickerArr.length; i++) {
       const url =
         "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" +

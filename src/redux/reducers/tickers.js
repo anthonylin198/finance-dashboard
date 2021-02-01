@@ -2,10 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const tickersSlice = createSlice({
   name: "user",
-  initialState: ["GME", "FB"],
+  initialState: {
+    tickers: [],
+  },
   reducers: {
-    addTicker: (state) => {
-      state.push("here");
+    addTicker: (state, action) => {
+      console.log("this is the state", state);
+      state.tickers = action.payload;
     },
   },
 });
