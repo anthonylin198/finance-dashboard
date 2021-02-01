@@ -2,17 +2,7 @@ import React from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { useHistory } from "react-router-dom";
 import SLUGS from "../../resources/slugs";
-import {
-  IconAgents,
-  IconArticles,
-  IconContacts,
-  IconIdeas,
-  IconLogout,
-  IconOverview,
-  IconSettings,
-  IconSubscription,
-  IconTickets,
-} from "../../assets/icons";
+import { IconLogout, IconSettings, IconSubscription } from "../../assets/icons";
 import { convertSlugToUrl } from "../../resources/utilities";
 import LogoComponent from "./LogoComponent";
 import Menu from "./MenuComponent";

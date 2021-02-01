@@ -1,6 +1,6 @@
 import React from "react";
 
-export default (props) => (
+const checkboxOff = (props) => (
   <svg
     width="20"
     height="20"
@@ -11,3 +11,5 @@ export default (props) => (
     <circle cx="10" cy="10" r="9" stroke="#C5C7CD" strokeWidth="2" />
   </svg>
 );
+
+export default checkboxOff;
