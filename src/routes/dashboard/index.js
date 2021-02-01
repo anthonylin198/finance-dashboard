@@ -21,7 +21,31 @@ const Dashboard = () => {
     {
       field: "movingAverage",
       headerName: "50 Day Moving Average",
-      // type: "number",
+      width: 250,
+    },
+    {
+      field: "data1",
+      headerName: "data1",
+      width: 250,
+    },
+    {
+      field: "data2",
+      headerName: "data2",
+      width: 250,
+    },
+    {
+      field: "data3",
+      headerName: "data3",
+      width: 250,
+    },
+    {
+      field: "data4",
+      headerName: "data4",
+      width: 250,
+    },
+    {
+      field: "data5",
+      headerName: "data5",
       width: 250,
     },
   ];
